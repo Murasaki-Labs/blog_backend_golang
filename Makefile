@@ -21,7 +21,7 @@ tidy: ## Cleans up go.mod and go.sum
 
 fmt: ## Formats all code with go fmt and goimports
 	@go fmt ./...
-	@goimports -w .
+	@go run golang.org/x/tools/cmd/goimports@latest -w .
 
 run: ## helper for debug running
 	@echo '==> env $$(cat .env | xargs) out/bin/blog-backend run'
