@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Security Blog API
+  description: API backend for the Murasaki Labs security blog.
+  version: 1.0.0
+  contact:
+    name: Murasaki Labs Support
+    email: support@murasaki-labs.org
+    url: https://murasaki-labs.org
+servers:
+  - url: https://api.murasaki-labs.org/v1
+    description: Production server
+  - url: http://localhost:8080/v1
+    description: Local development server
+paths:
+  /.well-known/live:
+    get:
+      summary: Liveness probe
+      description: Check if the service is running.
+      operationId: getLiveness
+      responses:
+        '200':
+          description: Service is alive
+  /.well-known/ready:
+    get:
+      summary: Readiness probe
+      description: Check if the service is ready to accept traffic.
+      operationId: getReadiness
+      responses:
+        '200':
+          description: Service is ready
