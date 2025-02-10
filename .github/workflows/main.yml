@@ -67,4 +67,5 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:blog-backend_latest .
 
       - name: Push Docker Image
+        if: github.ref == 'refs/heads/main'
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:blog-backend_latest
