@@ -1,33 +1,26 @@
+FROM golang:1.23-alpine AS base
+
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+ENV GOARCH=amd64
+
+WORKDIR /src
+COPY go.* .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
+
 # Start from the official Golang image
-FROM golang:1.23 AS builder
+FROM base AS build
+RUN --mount=target=. \
+    --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 go build -ldflags="-w -s" -o /out/bin/server ./cmd/*
 
-# Set the working directory
+
+FROM scratch
 WORKDIR /app
-
-# Copy the Go module files
-COPY go.mod go.sum ./
-
-# Download dependencies
-RUN go mod download
-
-# Copy the rest of the application source code
-COPY . .
-
-# Build the application
-#RUN go build -o server ./cmd/blog-backend
-RUN CGO_ENABLED=0 go build -o /out/bin/server ./cmd/*
-
-# Start with a smaller base image for the final image
-FROM golang:1.23-alpine
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the compiled binary from the builder stage
-COPY --from=builder /out/bin/server /app/server
-
-# Expose the port your server runs on
+COPY --from=build /out/bin/server /app/server
 EXPOSE 8080
-
-# Run the server
 CMD ["./server"]
