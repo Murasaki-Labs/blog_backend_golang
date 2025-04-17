@@ -20,6 +20,7 @@ RUN --mount=target=. \
 
 FROM scratch
 WORKDIR /app
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /out/bin/server /app/server
 EXPOSE 8080
 CMD ["./server"]
