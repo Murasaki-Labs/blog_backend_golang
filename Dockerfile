@@ -3,7 +3,6 @@ FROM golang:1.24.2-alpine AS base
 ENV GO111MODULE=on
 ENV CGO_ENABLED=0
 ENV GOOS=linux
-ENV GOARCH=amd64
 
 WORKDIR /src
 COPY go.* .
