@@ -2,15 +2,20 @@ package app
 
 import (
 	"context"
+	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters"
+	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters/github"
+	"github.com/patrickmn/go-cache"
 	"log/slog"
+	"time"
 
 	"gorm.io/gorm"
 )
 
 // Application provides application features (use cases) service.
 type Application interface {
-	// GetContext returns the Context for the application
 	GetContext() context.Context
+	GetArticlesList() ([]github.ArticleMeta, error)
+	GetArticleBySlug(slug string) ([]byte, error)
 }
 
 type Repo interface {
@@ -20,8 +25,10 @@ type Repo interface {
 
 // App implements interface Application.
 type App struct {
-	ctx context.Context
-	log *slog.Logger
+	ctx     context.Context
+	log     *slog.Logger
+	clients *adapters.Clients
+	cache   *cache.Cache
 }
 
 // GetContext returns the context of the app
@@ -33,10 +40,13 @@ func (a *App) GetContext() context.Context {
 func New(
 	c context.Context,
 	log *slog.Logger,
+	clients *adapters.Clients,
 ) *App {
 	a := &App{
-		ctx: c,
-		log: log,
+		ctx:     c,
+		log:     log,
+		clients: clients,
+		cache:   cache.New(5*time.Minute, 10*time.Minute),
 	}
 
 	return a
