@@ -39,6 +39,11 @@ func (s *Server) Serve() (*http.Server, error) {
 			r.Get("/live", liveHandler)
 			r.Get("/ready", readyHandler)
 		})
+
+		r.Route("/articles", func(r chi.Router) {
+			r.Get("/", s.handleListArticles)
+			r.Get("/{slug}", s.handleGetArticleBySlug)
+		})
 	})
 
 	s.log.Info("Routes:")
