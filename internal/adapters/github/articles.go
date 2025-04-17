@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/http"
 )
 
 type ArticleMeta struct {
@@ -16,7 +17,13 @@ type ArticleMeta struct {
 
 func (c *Client) FetchArticlesJSON() ([]ArticleMeta, error) {
 	url := fmt.Sprintf("%s/articles.json", baseRawURL)
-	resp, err := c.httpClient.Get(url)
+
+	req, err := http.NewRequestWithContext(c.ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +39,12 @@ func (c *Client) FetchArticlesJSON() ([]ArticleMeta, error) {
 func (c *Client) FetchMarkdown(slug string) ([]byte, error) {
 	fmt.Println("FETCH")
 	url := fmt.Sprintf("%s/articles/%s/index.md", baseRawURL, slug)
-	resp, err := c.httpClient.Get(url)
+
+	req, err := http.NewRequestWithContext(c.ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

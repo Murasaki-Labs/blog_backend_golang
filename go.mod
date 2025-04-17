@@ -1,6 +1,6 @@
 module github.com/orgs/murasaki-labs/blog-backend
 
-go 1.24
+go 1.24.2
 
 require (
 	github.com/go-chi/chi/v5 v5.2.1
@@ -8,6 +8,7 @@ require (
 	github.com/golangci/golangci-lint v1.63.4
 	github.com/gomarkdown/markdown v0.0.0-20250311123330-531bef5e742b
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.2.0
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/sethvargo/go-envconfig v1.1.0
 	github.com/stretchr/testify v1.10.0
 	go.opentelemetry.io/otel/trace v1.34.0
@@ -132,7 +133,6 @@ require (
 	github.com/nishanths/predeclared v0.2.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.18.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

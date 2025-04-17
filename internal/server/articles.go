@@ -7,7 +7,7 @@ import (
 )
 
 // handleListArticles serves JSON list of articles
-func (s *Server) handleListArticles(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleListArticles(w http.ResponseWriter, _ *http.Request) {
 	articles, err := s.app.GetArticlesList()
 	if err != nil {
 		s.log.Error("Failed to fetch article list", "error", err)
@@ -16,7 +16,12 @@ func (s *Server) handleListArticles(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(articles)
+	err = json.NewEncoder(w).Encode(articles)
+	if err != nil {
+		s.log.Error("Failed to encode article list", "error", err)
+		http.Error(w, "Unable to encode articles", http.StatusInternalServerError)
+		return
+	}
 }
 
 // handleGetArticleBySlug fetches article .md and converts to HTML
@@ -31,5 +36,9 @@ func (s *Server) handleGetArticleBySlug(w http.ResponseWriter, r *http.Request) 
 	}
 
 	w.Header().Set("Content-Type", "text/html")
-	w.Write(html)
+	_, err = w.Write(html)
+	if err != nil {
+		s.log.Error("Failed to write articles", "error", err)
+		http.Error(w, "Failed to write articles", http.StatusInternalServerError)
+	}
 }

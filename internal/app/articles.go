@@ -41,7 +41,7 @@ func (a *App) GetArticleBySlug(slug string) ([]byte, error) {
 
 	html := []byte(pkg.MarkdownToHTML(md))
 
-	a.cache.Set(cacheKey, html, 5*time.Minute)
+	a.cache.Set(cacheKey, html, defaultCacheExpiration)
 
 	return html, nil
 }

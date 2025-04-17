@@ -1,6 +1,7 @@
 package github
 
 import (
+	"context"
 	"net/http"
 )
 
@@ -9,11 +10,13 @@ const (
 )
 
 type Client struct {
+	ctx        context.Context
 	httpClient *http.Client
 }
 
-func NewClient() *Client {
+func NewClient(ctx context.Context) *Client {
 	return &Client{
+		ctx:        ctx,
 		httpClient: &http.Client{},
 	}
 }
