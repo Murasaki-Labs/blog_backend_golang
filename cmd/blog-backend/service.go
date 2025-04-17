@@ -30,7 +30,7 @@ func newService(ctx context.Context, log *slog.Logger) (*service, error) {
 		return nil, err
 	}
 
-	client := adapters.MustClients()
+	client := adapters.MustClients(ctx)
 	
 	application := app.New(ctx, log, client)
 

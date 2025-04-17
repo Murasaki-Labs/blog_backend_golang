@@ -11,6 +11,11 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	defaultCacheExpiration = 5 * time.Minute
+	cleanupInterval        = 10 * time.Minute
+)
+
 // Application provides application features (use cases) service.
 type Application interface {
 	GetContext() context.Context
@@ -46,7 +51,7 @@ func New(
 		ctx:     c,
 		log:     log,
 		clients: clients,
-		cache:   cache.New(5*time.Minute, 10*time.Minute),
+		cache:   cache.New(defaultCacheExpiration, cleanupInterval),
 	}
 
 	return a
