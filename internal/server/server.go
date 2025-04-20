@@ -40,9 +40,9 @@ func (s *Server) Serve() (*http.Server, error) {
 			r.Get("/ready", readyHandler)
 		})
 
-		r.Route("/articles", func(r chi.Router) {
-			r.Get("/", s.handleListArticles)
-			r.Get("/{slug}", s.handleGetArticleBySlug)
+		r.Route("/api", func(r chi.Router) {
+			r.Get("/articles", s.handleListArticles)
+			r.Get("/articles/{slug}", s.handleGetArticleBySlug)
 		})
 	})
 
