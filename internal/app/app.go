@@ -21,6 +21,7 @@ type Application interface {
 	GetContext() context.Context
 	GetArticlesList() ([]github.ArticleMeta, error)
 	GetArticleBySlug(slug string) ([]byte, error)
+	GetArticleBySlugHtml(slug string) ([]byte, error)
 }
 
 type Repo interface {
