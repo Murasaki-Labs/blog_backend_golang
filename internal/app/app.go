@@ -2,11 +2,12 @@ package app
 
 import (
 	"context"
+	"log/slog"
+	"time"
+
 	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters"
 	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters/github"
 	"github.com/patrickmn/go-cache"
-	"log/slog"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -21,7 +22,7 @@ type Application interface {
 	GetContext() context.Context
 	GetArticlesList() ([]github.ArticleMeta, error)
 	GetArticleBySlug(slug string) ([]byte, error)
-	GetArticleBySlugHtml(slug string) ([]byte, error)
+	GetArticleBySlugHTML(slug string) ([]byte, error)
 }
 
 type Repo interface {

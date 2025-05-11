@@ -43,7 +43,7 @@ func (s *Server) Serve() (*http.Server, error) {
 		r.Route("/api", func(r chi.Router) {
 			r.Get("/articles", s.handleListArticles)
 			r.Get("/articles/{slug}", s.handleGetArticleBySlug)
-			r.Get("/articles/{slug}.html", s.handleGetArticleBySlugHtml)
+			r.Get("/articles/{slug}.html", s.handleGetArticleBySlugHTML)
 		})
 	})
 

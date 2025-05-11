@@ -2,8 +2,9 @@ package srv
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi/v5"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 // handleListArticles serves JSON list of articles
@@ -43,11 +44,11 @@ func (s *Server) handleGetArticleBySlug(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-// handleGetArticleBySlugHtml fetches article .md and converts to HTML
-func (s *Server) handleGetArticleBySlugHtml(w http.ResponseWriter, r *http.Request) {
+// handleGetArticleBySlugHTML fetches article .md and converts to HTML
+func (s *Server) handleGetArticleBySlugHTML(w http.ResponseWriter, r *http.Request) {
 	slug := chi.URLParam(r, "slug")
 
-	html, err := s.app.GetArticleBySlugHtml(slug)
+	html, err := s.app.GetArticleBySlugHTML(slug)
 	if err != nil {
 		s.log.Error("Failed to fetch article", "slug", slug, "error", err)
 		http.Error(w, "Article not found", http.StatusNotFound)

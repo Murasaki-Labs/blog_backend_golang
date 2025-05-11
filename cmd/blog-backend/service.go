@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters"
 
 	"github.com/orgs/murasaki-labs/blog-backend/internal/app"
 	"github.com/orgs/murasaki-labs/blog-backend/internal/config"
@@ -31,7 +32,7 @@ func newService(ctx context.Context, log *slog.Logger) (*service, error) {
 	}
 
 	client := adapters.MustClients(ctx)
-	
+
 	application := app.New(ctx, log, client)
 
 	server, err := srv.NewServer(application, cfg, log)

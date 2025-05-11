@@ -3,6 +3,7 @@ package pkg
 import (
 	"bufio"
 	"bytes"
+
 	"github.com/gomarkdown/markdown"
 )
 

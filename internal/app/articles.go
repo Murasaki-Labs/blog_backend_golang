@@ -3,9 +3,10 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters/github"
 	"github.com/orgs/murasaki-labs/blog-backend/pkg"
-	"time"
 )
 
 func (a *App) GetArticlesList() ([]github.ArticleMeta, error) {
@@ -26,7 +27,7 @@ func (a *App) GetArticlesList() ([]github.ArticleMeta, error) {
 	return articles, nil
 }
 
-func (a *App) GetArticleBySlugHtml(slug string) ([]byte, error) {
+func (a *App) GetArticleBySlugHTML(slug string) ([]byte, error) {
 	cacheKey := fmt.Sprintf("article:html:%s", slug)
 
 	if cached, found := a.cache.Get(cacheKey); found {

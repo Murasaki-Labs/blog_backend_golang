@@ -20,7 +20,7 @@ type ArticleMeta struct {
 	Difficulty     string         `json:"difficulty"`
 	CoverImage     string         `json:"coverImage"`
 	ReadingTime    string         `json:"readingTime"`
-	CanonicalUrl   string         `json:"canonicalUrl"`
+	CanonicalURL   string         `json:"canonicalUrl"`
 	OgImage        string         `json:"ogImage"`
 	StructuredData StructuredData `json:"structuredData"`
 }
@@ -39,7 +39,7 @@ type StructuredData struct {
 		Name string `json:"name"`
 		Logo struct {
 			Type string `json:"@type"`
-			Url  string `json:"url"`
+			URL  string `json:"url"`
 		} `json:"logo"`
 	} `json:"publisher"`
 	DatePublished string `json:"datePublished"`
@@ -145,17 +145,17 @@ func generateStructuredData(title, date, author, coverImage string) StructuredDa
 			Name string `json:"name"`
 			Logo struct {
 				Type string `json:"@type"`
-				Url  string `json:"url"`
+				URL  string `json:"url"`
 			} `json:"logo"`
 		}{
 			Type: "Organization",
 			Name: "Murasaki Labs",
 			Logo: struct {
 				Type string `json:"@type"`
-				Url  string `json:"url"`
+				URL  string `json:"url"`
 			}{
 				Type: "ImageObject",
-				Url:  "https://avatars.githubusercontent.com/u/187413780",
+				URL:  "https://avatars.githubusercontent.com/u/187413780",
 			},
 		},
 	}
