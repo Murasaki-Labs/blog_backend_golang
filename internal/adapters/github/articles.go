@@ -8,11 +8,37 @@ import (
 )
 
 type ArticleMeta struct {
-	Slug         string `json:"slug"`
-	Title        string `json:"title"`
-	Description  string `json:"description"`
-	PreviewImage string `json:"previewImage"`
-	Date         string `json:"date"`
+	Slug         string   `json:"slug"`
+	Title        string   `json:"title"`
+	Description  string   `json:"description"`
+	Date         string   `json:"date"`
+	Author       string   `json:"author"`
+	Tags         []string `json:"tags"`
+	CoverImage   string   `json:"coverImage"`
+	ReadingTime  string   `json:"readingTime"`
+	CanonicalUrl string   `json:"canonicalUrl"`
+	OgImage      string   `json:"ogImage"`
+}
+
+type StructuredData struct {
+	Context  string   `json:"@context"`
+	Type     string   `json:"@type"`
+	Headline string   `json:"headline"`
+	Image    []string `json:"image"`
+	Author   struct {
+		Type string `json:"@type"`
+		Name string `json:"name"`
+	} `json:"author"`
+	Publisher struct {
+		Type string `json:"@type"`
+		Name string `json:"name"`
+		Logo struct {
+			Type string `json:"@type"`
+			Url  string `json:"url"`
+		} `json:"logo"`
+	} `json:"publisher"`
+	DatePublished string `json:"datePublished"`
+	DateModified  string `json:"dateModified"`
 }
 
 func (c *Client) FetchArticlesJSON() ([]ArticleMeta, error) {
