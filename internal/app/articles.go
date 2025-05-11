@@ -1,10 +1,12 @@
 package app
 
 import (
+	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters/github"
 	"github.com/orgs/murasaki-labs/blog-backend/pkg"
-	"time"
 )
 
 func (a *App) GetArticlesList() ([]github.ArticleMeta, error) {
@@ -25,7 +27,7 @@ func (a *App) GetArticlesList() ([]github.ArticleMeta, error) {
 	return articles, nil
 }
 
-func (a *App) GetArticleBySlug(slug string) ([]byte, error) {
+func (a *App) GetArticleBySlugHTML(slug string) ([]byte, error) {
 	cacheKey := fmt.Sprintf("article:html:%s", slug)
 
 	if cached, found := a.cache.Get(cacheKey); found {
@@ -44,4 +46,27 @@ func (a *App) GetArticleBySlug(slug string) ([]byte, error) {
 	a.cache.Set(cacheKey, html, defaultCacheExpiration)
 
 	return html, nil
+}
+
+func (a *App) GetArticleBySlug(slug string) ([]byte, error) {
+	cacheKey := fmt.Sprintf("article:json:%s", slug)
+
+	if cached, found := a.cache.Get(cacheKey); found {
+		a.log.Debug("Returning cached article JSON", "slug", slug)
+		return cached.([]byte), nil
+	}
+
+	a.log.Debug("Fetching article json", "slug", slug)
+	meta, err := a.clients.GitHub().FetchArticleJSON(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	jsonData, err := json.Marshal(meta)
+	if err != nil {
+		return nil, err
+	}
+
+	a.cache.Set(cacheKey, jsonData, defaultCacheExpiration)
+	return jsonData, nil
 }

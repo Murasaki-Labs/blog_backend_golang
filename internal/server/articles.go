@@ -2,8 +2,9 @@ package srv
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi/v5"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 // handleListArticles serves JSON list of articles
@@ -24,11 +25,30 @@ func (s *Server) handleListArticles(w http.ResponseWriter, _ *http.Request) {
 	}
 }
 
-// handleGetArticleBySlug fetches article .md and converts to HTML
+// handleGetArticleBySlug fetches article in json format
 func (s *Server) handleGetArticleBySlug(w http.ResponseWriter, r *http.Request) {
 	slug := chi.URLParam(r, "slug")
 
-	html, err := s.app.GetArticleBySlug(slug)
+	body, err := s.app.GetArticleBySlug(slug)
+	if err != nil {
+		s.log.Error("Failed to fetch article", "slug", slug, "error", err)
+		http.Error(w, "Article not found", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(body)
+	if err != nil {
+		s.log.Error("Failed to write articles", "error", err)
+		http.Error(w, "Failed to write articles", http.StatusInternalServerError)
+	}
+}
+
+// handleGetArticleBySlugHTML fetches article .md and converts to HTML
+func (s *Server) handleGetArticleBySlugHTML(w http.ResponseWriter, r *http.Request) {
+	slug := chi.URLParam(r, "slug")
+
+	html, err := s.app.GetArticleBySlugHTML(slug)
 	if err != nil {
 		s.log.Error("Failed to fetch article", "slug", slug, "error", err)
 		http.Error(w, "Article not found", http.StatusNotFound)

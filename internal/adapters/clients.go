@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"context"
+
 	"github.com/orgs/murasaki-labs/blog-backend/internal/adapters/github"
 )
 
